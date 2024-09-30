@@ -1,0 +1,95 @@
+extends layout
+
+block javascripts
+  script(src='/js/lib/jquery-jvectormap-2.0.5.min.js')
+  script(src='/js/lib/jquery-jvectormap-us-merc-en.js')
+
+block javascripts
+  script.
+    $(() => {
+      const palette = ['#FF8888', '#8888FF', '#88FF88', '#FFFF88'];
+      let offset = Math.floor(Math.random()*palette.length);
+      let show = false;
+
+      const showColors = () => {
+        let colors = {};
+
+        for (let key in map.regions) {
+          colors[key] = palette[(offset + map.mapData.paths[key].color) % palette.length];
+
+        }
+
+        return colors;
+
+      };
+
+      const hideColors = () => {
+        let colors = {};
+        for (let key in map.regions) {
+          colors[key] = '#FFFFFF';
+
+        }
+
+        return colors;
+
+      };
+
+      let map = new jvm.Map({
+        map: 'us_merc_en',
+        container: $('#map'),
+        series: {
+          regions: [{
+            attribute: 'fill'
+          }]
+        },
+        labels: {
+          regions: {
+            render: (code) => code
+          }
+        }
+      });
+
+      map.series.regions[0].setValues(hideColors());
+
+      map.container.click((e) => {
+        const latLng = map.pointToLatLng(
+          e.pageX - map.container.offset().left,
+          e.pageY - map.container.offset().top
+        );
+
+        console.log(latLng);
+
+      });
+
+      $('#shuffle-colors-button').click((e) => {
+        e.preventDefault();
+        offset = Math.floor(Math.random()*palette.length);
+        if (show)
+          map.series.regions[0].setValues(showColors());
+
+      });
+
+      $('#show-hide-colors-button').click((e) => {
+        e.preventDefault();
+        if (show) {
+          map.series.regions[0].setValues(hideColors());
+          show = false;
+
+        }
+        else {
+          map.series.regions[0].setValues(showColors());
+          show = true;
+
+        }
+
+      });
+
+    });
+
+  });
+
+block content
+  .container
+    .map(style='width: 1024px; height: 600px')
+    button#show-hide-colors-button Show / Hide
+    button#shuffle-colors-button Shuffle Colors

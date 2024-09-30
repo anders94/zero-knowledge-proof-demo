@@ -1,0 +1,13 @@
+extends layout
+
+block content
+  .container
+    .card.mt-4
+      .card-header
+        h2 Sorry!
+      .card-body
+        p= message
+        p= JSON.stringify(error)
+      .card-footer
+        a(href='/')
+          button.btn.btn-primary.float-end Back to Safety
