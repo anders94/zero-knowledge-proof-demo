@@ -2,9 +2,14 @@ extends layout
 
 block content
   .container
-    #map
-    button.btn.btn-primary#show-hide-colors-button(type='button') Show / Hide
-    button.btn.btn-primary#shuffle-colors-button(type='button') Shuffle Colors
+    .card
+      #map
+      .card-footer.text-center
+        .row
+          .col
+            button.btn.btn-primary#show-hide-colors-button(type='button') Show / Hide
+          .col
+            button.btn.btn-secondary#shuffle-colors-button(type='button') Shuffle Colors
 
 block javascripts
   script(src='/js/lib/jquery-jvectormap-2.0.5.min.js')
