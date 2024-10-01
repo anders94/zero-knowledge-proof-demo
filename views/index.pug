@@ -1,11 +1,18 @@
 extends layout
 
-block javascripts
-  script(src='/js/lib/jquery-jvectormap-2.0.5.min.js')
-  script(src='/js/lib/jquery-jvectormap-us-merc-en.js')
+block content
+  .container
+    #map
+    button.btn.btn-primary#show-hide-colors-button(type='button') Show / Hide
+    button.btn.btn-primary#shuffle-colors-button(type='button') Shuffle Colors
 
 block javascripts
+  script(src='/js/lib/jquery-jvectormap-2.0.5.min.js')
+  script(src='/js/lib/jvm/map.js')
+  script(src='/js/lib/jquery-jvectormap-us-merc-en.js')
+
   script.
+    let map;
     $(() => {
       const palette = ['#FF8888', '#8888FF', '#88FF88', '#FFFF88'];
       let offset = Math.floor(Math.random()*palette.length);
@@ -18,7 +25,6 @@ block javascripts
           colors[key] = palette[(offset + map.mapData.paths[key].color) % palette.length];
 
         }
-
         return colors;
 
       };
@@ -29,12 +35,11 @@ block javascripts
           colors[key] = '#FFFFFF';
 
         }
-
         return colors;
 
       };
 
-      let map = new jvm.Map({
+      map = new jvm.Map({
         map: 'us_merc_en',
         container: $('#map'),
         series: {
@@ -46,24 +51,49 @@ block javascripts
           regions: {
             render: (code) => code
           }
+        },
+        backgroundColor: '#DDDDDD',
+        regionsSelectable: true,
+        regionStyle: {
+          selected: {
+            fill: '#AAAAAA'
+          }
+        },
+        onRegionSelected: (e, code, selected, regions) => {
+          console.log(code, selected, regions);
+
+          if (regions.length < palette.length) {
+            let colors = {};
+            for (let key in map.regions) {
+              colors[key] = '#FFFFFF';
+            }
+            map.series.regions[0].setValues(colors);
+          }
+          else if (regions.length == palette.length) {
+            let colors = {};
+            let unmask = {};
+            for (let key in map.regions) {
+              if (regions.includes(key)) {
+                colors[key] = palette[(offset + map.mapData.paths[key].color) % palette.length];
+                unmask[key] = false;
+              }
+              else
+                colors[key] = '#FFFFFF';
+            }
+
+            show = true;
+
+            map.setSelectedRegions(unmask);
+            map.series.regions[0].setValues(colors);
+          }
         }
-      });
-
-      map.series.regions[0].setValues(hideColors());
-
-      map.container.click((e) => {
-        const latLng = map.pointToLatLng(
-          e.pageX - map.container.offset().left,
-          e.pageY - map.container.offset().top
-        );
-
-        console.log(latLng);
-
       });
 
       $('#shuffle-colors-button').click((e) => {
         e.preventDefault();
-        offset = Math.floor(Math.random()*palette.length);
+        // set offset to some other random number in the range
+        offset = (offset + 1 + Math.floor(Math.random()*(palette.length - 2))) % palette.length;
+
         if (show)
           map.series.regions[0].setValues(showColors());
 
@@ -84,12 +114,7 @@ block javascripts
 
       });
 
+      map.canvas.setSize(800, 600);
+      map.updateSize();
+
     });
-
-  });
-
-block content
-  .container
-    .map(style='width: 1024px; height: 600px')
-    button#show-hide-colors-button Show / Hide
-    button#shuffle-colors-button Shuffle Colors

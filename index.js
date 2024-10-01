@@ -21,7 +21,6 @@ const routes = require('./routes');
 
     app.use((req, res, next) => {
 	res.locals.session = req.session;
-	res.locals.datefns = datefns;
 	res.locals.formatter = new Intl.NumberFormat('en-US', {style: 'currency', currency: 'USD'});
 	res.locals.commit = commit[0].oid;
 	console.log(req.ip, req.method, req.url);
