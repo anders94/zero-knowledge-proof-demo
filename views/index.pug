@@ -20,7 +20,7 @@ block javascripts
     let map;
     $(() => {
       const palette = ['#FF8888', '#8888FF', '#88FF88', '#FFFF88'];
-      let offset = Math.floor(Math.random()*palette.length);
+      let offset = Math.floor(Math.random() * palette.length);
       let show = false;
 
       const showColors = () => {
@@ -67,14 +67,14 @@ block javascripts
         onRegionSelected: (e, code, selected, regions) => {
           console.log(code, selected, regions);
 
-          if (regions.length < palette.length) {
+          if (regions.length < 2) {
             let colors = {};
             for (let key in map.regions) {
               colors[key] = '#FFFFFF';
             }
             map.series.regions[0].setValues(colors);
           }
-          else if (regions.length == palette.length) {
+          else if (regions.length >= 2) {
             let colors = {};
             let unmask = {};
             for (let key in map.regions) {
@@ -97,7 +97,7 @@ block javascripts
       $('#shuffle-colors-button').click((e) => {
         e.preventDefault();
         // set offset to some other random number in the range
-        offset = (offset + 1 + Math.floor(Math.random()*(palette.length - 2))) % palette.length;
+        offset = (offset + 1 + Math.floor(Math.random() * (palette.length - 2))) % palette.length;
 
         if (show)
           map.series.regions[0].setValues(showColors());
