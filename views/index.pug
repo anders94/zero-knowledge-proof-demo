@@ -1,5 +1,9 @@
 extends layout
 
+block stylesheets
+  link(href='/css/lib/jquery-jvectormap-2.0.5.css', rel='stylesheet')
+  link(href='/css/map-custom.css', rel='stylesheet')
+
 block content
   .container
     .card
@@ -51,6 +55,10 @@ block javascripts
           regions: [{
             attribute: 'fill'
           }]
+        },
+        // Disable tooltips but keep labels
+        onRegionTipShow: function(e, tip, code) {
+          e.preventDefault();
         },
         labels: {
           regions: {

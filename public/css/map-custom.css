@@ -1,0 +1,22 @@
+/* Custom map styles to move zoom controls to lower right */
+.jvectormap-zoomin, .jvectormap-zoomout {
+  left: auto;
+  right: 15px;
+  width: 16px;
+  height: 16px;
+  line-height: 16px;
+  background: #999;
+  font-size: 14px;
+  border: 1px solid #777;
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.jvectormap-zoomin {
+  top: auto;
+  bottom: 50px;
+}
+
+.jvectormap-zoomout {
+  top: auto;
+  bottom: 15px;
+}
