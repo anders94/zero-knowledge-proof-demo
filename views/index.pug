@@ -127,7 +127,12 @@ block javascripts
 
       });
 
-      map.canvas.setSize(800, 600);
+      // Make the map responsive to window size changes
+      $(window).resize(function() {
+        map.updateSize();
+      });
+      
+      // Initial size update
       map.updateSize();
 
     });

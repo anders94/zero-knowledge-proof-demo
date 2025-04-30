@@ -1,4 +1,19 @@
-/* Custom map styles to move zoom controls to lower right */
+/* Custom map styles for map and zoom controls */
+#map {
+  width: 100%;
+  height: 70vh;
+  min-height: 400px;
+}
+
+.card {
+  height: calc(70vh + 58px);
+  min-height: 458px;
+}
+
+.jvectormap-container {
+  width: 100% !important;
+  height: 100% !important;
+}
 .jvectormap-zoomin, .jvectormap-zoomout {
   left: auto;
   right: 15px;
