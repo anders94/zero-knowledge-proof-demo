@@ -1,19 +1,32 @@
 /* Custom map styles for map and zoom controls */
-#map {
-  width: 100%;
-  height: 70vh;
-  min-height: 400px;
+html, body {
+  height: 100%;
+}
+
+.container {
+  height: calc(100% - 20rem);
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
 }
 
 .card {
-  height: calc(70vh + 58px);
-  min-height: 458px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+#map {
+  width: 100%;
+  flex: 1;
 }
 
 .jvectormap-container {
   width: 100% !important;
   height: 100% !important;
 }
+
 .jvectormap-zoomin, .jvectormap-zoomout {
   left: auto;
   right: 15px;

@@ -11,7 +11,7 @@ block content
       .card-footer.text-center
         .row
           .col
-            button.btn.btn-primary#show-hide-colors-button(type='button') Show / Hide
+            button.btn.btn-secondary#show-hide-colors-button(type='button') Show / Hide
           .col
             button.btn.btn-secondary#shuffle-colors-button(type='button') Shuffle Colors
 
@@ -26,26 +26,21 @@ block javascripts
       const palette = ['#FF8888', '#8888FF', '#88FF88', '#FFFF88'];
       let offset = Math.floor(Math.random() * palette.length);
       let show = false;
+      let colors = {};
+      let mask = {};
 
-      const showColors = () => {
-        let colors = {};
-
+      const allColors = () => {
         for (let key in map.regions) {
           colors[key] = palette[(offset + map.mapData.paths[key].color) % palette.length];
 
         }
-        return colors;
-
       };
 
-      const hideColors = () => {
-        let colors = {};
+      const noColors = () => {
         for (let key in map.regions) {
           colors[key] = '#FFFFFF';
 
         }
-        return colors;
-
       };
 
       map = new jvm.Map({
@@ -60,11 +55,6 @@ block javascripts
         onRegionTipShow: function(e, tip, code) {
           e.preventDefault();
         },
-        labels: {
-          regions: {
-            render: (code) => code
-          }
-        },
         backgroundColor: '#DDDDDD',
         regionsSelectable: true,
         regionStyle: {
@@ -72,32 +62,29 @@ block javascripts
             fill: '#AAAAAA'
           }
         },
-        onRegionSelected: (e, code, selected, regions) => {
-          console.log(code, selected, regions);
+        onRegionSelected: (e, region, isSelected, selectedRegions) => {
+          console.log(region, isSelected, selectedRegions);
 
-          if (regions.length < 2) {
-            let colors = {};
+          if (isSelected) {
             for (let key in map.regions) {
-              colors[key] = '#FFFFFF';
-            }
-            map.series.regions[0].setValues(colors);
-          }
-          else if (regions.length >= 2) {
-            let colors = {};
-            let unmask = {};
-            for (let key in map.regions) {
-              if (regions.includes(key)) {
+              if (selectedRegions.includes(key)) {
                 colors[key] = palette[(offset + map.mapData.paths[key].color) % palette.length];
-                unmask[key] = false;
+                mask[key] = true;
               }
-              else
+              else {
                 colors[key] = '#FFFFFF';
+                mask[key] = false;
+              }
+            }
+            map.series.regions[0].setValues(colors);
+
+            if (selectedRegions.length == 2) {
+              map.clearSelectedRegions();
             }
 
-            show = true;
-
-            map.setSelectedRegions(unmask);
-            map.series.regions[0].setValues(colors);
+            if (selectedRegions.length > 2) {
+              noColors();
+            }
           }
         }
       });
@@ -107,32 +94,44 @@ block javascripts
         // set offset to some other random number in the range
         offset = (offset + 1 + Math.floor(Math.random() * (palette.length - 2))) % palette.length;
 
-        if (show)
-          map.series.regions[0].setValues(showColors());
-
+        if (show) {
+          allColors();
+          map.series.regions[0].setValues(colors);
+        }
       });
 
       $('#show-hide-colors-button').click((e) => {
         e.preventDefault();
         if (show) {
-          map.series.regions[0].setValues(hideColors());
+          noColors();
+          map.series.regions[0].setValues(colors);
           show = false;
+          $('#show-hide-colors-button').text('Show Colors');
 
         }
         else {
-          map.series.regions[0].setValues(showColors());
+          allColors();
+          map.series.regions[0].setValues(colors);
           show = true;
+          $('#show-hide-colors-button').text('Hide Colors');
 
         }
 
       });
 
-      // Make the map responsive to window size changes
+      map.updateSize();
       $(window).resize(function() {
         map.updateSize();
       });
-      
-      // Initial size update
-      map.updateSize();
+
+      $(document).on('click', function(e) {
+        if ($(e.target).is('.jvectormap-container') ||
+            $(e.target).is('svg') ||
+            $(e.target).is('path.jvectormap-background')) {
+          map.clearSelectedRegions();
+          noColors();
+          map.series.regions[0].setValues(colors);
+        }
+      });
 
     });
