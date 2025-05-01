@@ -64,22 +64,19 @@ block javascripts
         onRegionSelected: (e, region, isSelected, selectedRegions) => {
           if (isSelected) {
             for (let key in map.regions) {
-              if (selectedRegions.includes(key)) {
+              if (selectedRegions.includes(key))
                 colors[key] = palette[(offset + map.mapData.paths[key].color) % palette.length];
-              }
-              else {
+              else
                 colors[key] = '#FFFFFF';
-              }
             }
             map.series.regions[0].setValues(colors);
 
-            if (selectedRegions.length == 2) {
+            if (selectedRegions.length == 2)
               map.clearSelectedRegions();
-            }
 
-            if (selectedRegions.length > 2) {
+            if (selectedRegions.length > 2)
               noColors();
-            }
+
           }
         }
       });
@@ -89,28 +86,33 @@ block javascripts
         // set offset to some other random number in the range
         offset = (offset + 1 + Math.floor(Math.random() * (palette.length - 2))) % palette.length;
 
-        if (show) {
+        if (show)
           allColors();
-          map.series.regions[0].setValues(colors);
+
+        for (let key in map.regions) {
+          if (colors[key] != '#FFFFFF')
+            colors[key] = palette[(offset + map.mapData.paths[key].color) % palette.length];
         }
+
+        map.series.regions[0].setValues(colors);
+
       });
 
       $('#show-hide-colors-button').click((e) => {
         e.preventDefault();
         if (show) {
           noColors();
-          map.series.regions[0].setValues(colors);
           show = false;
           $('#show-hide-colors-button').text('Show Colors');
 
         }
         else {
           allColors();
-          map.series.regions[0].setValues(colors);
           show = true;
           $('#show-hide-colors-button').text('Hide Colors');
 
         }
+        map.series.regions[0].setValues(colors);
 
       });
 
