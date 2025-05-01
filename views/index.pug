@@ -27,7 +27,6 @@ block javascripts
       let offset = Math.floor(Math.random() * palette.length);
       let show = false;
       let colors = {};
-      let mask = {};
 
       const allColors = () => {
         for (let key in map.regions) {
@@ -63,17 +62,13 @@ block javascripts
           }
         },
         onRegionSelected: (e, region, isSelected, selectedRegions) => {
-          console.log(region, isSelected, selectedRegions);
-
           if (isSelected) {
             for (let key in map.regions) {
               if (selectedRegions.includes(key)) {
                 colors[key] = palette[(offset + map.mapData.paths[key].color) % palette.length];
-                mask[key] = true;
               }
               else {
                 colors[key] = '#FFFFFF';
-                mask[key] = false;
               }
             }
             map.series.regions[0].setValues(colors);
