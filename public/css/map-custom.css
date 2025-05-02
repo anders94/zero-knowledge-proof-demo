@@ -20,11 +20,14 @@ html, body {
 #map {
   width: 100%;
   flex: 1;
+  position: relative;
 }
 
 .jvectormap-container {
   width: 100% !important;
   height: 100% !important;
+  position: relative;
+  overflow: visible !important;
 }
 
 .jvectormap-zoomin, .jvectormap-zoomout {

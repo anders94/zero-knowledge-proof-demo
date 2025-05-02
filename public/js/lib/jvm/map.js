@@ -232,7 +232,7 @@ jvm.Map.prototype = {
    */
   updateSize: function(){
     this.width = this.container.width();
-    this.height = this.container.height() - 48;
+    this.height = this.container.height();
     this.resize();
     this.canvas.setSize(this.width, this.height);
     this.applyTransform();
