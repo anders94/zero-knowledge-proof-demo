@@ -11,7 +11,7 @@ block content
       .card-footer.text-center
         .row
           .col
-            button.btn.btn-secondary#show-hide-colors-button(type='button') Show / Hide
+            button.btn.btn-secondary#show-hide-colors-button(type='button') Show Colors
           .col
             button.btn.btn-secondary#shuffle-colors-button(type='button') Shuffle Colors
 
@@ -81,19 +81,17 @@ block javascripts
         }
       });
 
+      noColors(); // start with no colors
+
       $('#shuffle-colors-button').click((e) => {
         e.preventDefault();
         // set offset to some other random number in the range
         offset = (offset + 1 + Math.floor(Math.random() * (palette.length - 2))) % palette.length;
 
-        if (show)
-          allColors();
-
         for (let key in map.regions) {
           if (colors[key] != '#FFFFFF')
             colors[key] = palette[(offset + map.mapData.paths[key].color) % palette.length];
         }
-
         map.series.regions[0].setValues(colors);
 
       });
