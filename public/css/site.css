@@ -1,6 +1,6 @@
 body {
-  min-height: 75rem;
-  padding-top: 5rem;
+  min-height: 100vh;
+  padding-top: 60px;
 }
 
 body,html{

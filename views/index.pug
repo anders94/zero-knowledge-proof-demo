@@ -5,7 +5,7 @@ block stylesheets
   link(href='/css/map-custom.css', rel='stylesheet')
 
 block content
-  .container
+  .container.content-container
     .card
       #map
       .card-footer.text-center
@@ -63,6 +63,8 @@ block javascripts
         },
         onRegionSelected: (e, region, isSelected, selectedRegions) => {
           if (isSelected) {
+            show = false;
+            $('#show-hide-colors-button').text('Show Colors');
             for (let key in map.regions) {
               if (selectedRegions.includes(key))
                 colors[key] = palette[(offset + map.mapData.paths[key].color) % palette.length];
@@ -114,16 +116,14 @@ block javascripts
 
       });
 
-      $(window).resize(function() {
-        map.updateSize();
-      });
-
       $(document).on('click', function(e) {
         if ($(e.target).is('.jvectormap-container') ||
             $(e.target).is('svg') ||
             $(e.target).is('path.jvectormap-background')) {
           map.clearSelectedRegions();
           noColors();
+          show = false;
+          $('#show-hide-colors-button').text('Show Colors');
           map.series.regions[0].setValues(colors);
         }
       });
