@@ -1,3 +1,11 @@
-nav.navbar.navbar-expand-md.navbar-dark.fixed-top.bg-dark
+nav.navbar.navbar-expand.navbar-dark.bg-dark
   .container
     a.navbar-brand(href='./') Zero-Knowledge Proof Demo
+    button.navbar-toggler(type='button', data-bs-toggle='collapse', data-bs-target='#navbar', aria-controls='navbar', aria-expanded=false, aria-label='Toggle navigation')
+      span.navbar-toggler-icon
+    #navbar.collapse.navbar-collapse.justify-content-end
+      ul.navbar-nav
+        li.nav-item
+          a.nav-link(aria-current='page', href='./') Home
+        li.nav-item
+          a.nav-link.active(aria-current='page', href='#') Map
