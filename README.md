@@ -1,7 +1,7 @@
 # Zero-Knowledge Proof Demo
 A web-based demonstration of the concept behind zero-knowledge proofs.
 
-[![Zero-Knowledge Proof Demo](https://img.youtube.com/vi/_160oMzblY8/0.jpg)](https://www.youtube.com/watch?v=_160oMzblY8)
+[![Zero-Knowledge Proof Demo](https://img.youtube.com/vi/lUTv9NHkuR4/0.jpg)](https://www.youtube.com/watch?v=lUTv9NHkuR4)
 
 This is a very basic visual introduction to the concept behind a zero-knowledge proof. Using a web-based
 map demo, we use the example of introduce the viewer to the idea that is available here:
