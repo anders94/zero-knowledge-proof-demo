@@ -6,7 +6,7 @@ A web-based demonstration of the concept behind zero-knowledge proofs.
 This is a very basic visual introduction to the concept behind a zero-knowledge proof. Using a web-based
 map demo, we use the example of introduce the viewer to the idea that is available here:
 
-http://andersbrownworth.com/zero-knowledge-proof-demo
+https://andersbrownworth.com/zero-knowledge-proof-demo
 
 ## Setup
 Get the code:
